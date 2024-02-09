@@ -4,13 +4,12 @@ Chain ID: evmos_9001-2 | Latest Version Tag: v16.0.3 | Custom Port: 169
 ~~~bash
 MONIKER="WellNode_guide"
 ~~~
-
 ~~~bash
 sudo apt -q update
 sudo apt -qy install curl git jq lz4 build-essential
 sudo apt -qy upgrade
 ~~~
-```
+~~~bash
 sudo rm -rf /usr/local/go
 curl -Ls https://go.dev/dl/go1.20.5.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
 eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
@@ -18,23 +17,27 @@ eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
 echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 go version
-
+~~~
+~~~bash
 # Clone project repository
 cd $HOME
 rm -rf evmos
 git clone https://github.com/evmos/evmos.git
 cd evmos
 git checkout v16.0.3
-
+~~~
+~~~bash
 go mod edit -replace github.com/tendermint/tm-db=github.com/notional-labs/tm-db@v0.6.8-pebble
 go mod tidy
 go mod edit -replace github.com/cometbft/cometbft-db=github.com/notional-labs/cometbft-db@pebble
 go mod tidy
-
+~~~
+~~~bash
 go install -ldflags "-w -s -X github.com/cosmos/cosmos-sdk/types.DBBackend=pebbledb \
  -X github.com/cosmos/cosmos-sdk/version.Version=$(git describe --tags)-pebbledb \
  -X github.com/cosmos/cosmos-sdk/version.Commit=$(git log -1 --format='%H')" -tags pebbledb ./...
-
+~~~
+~~~bash
 
  # Download
 tee /etc/systemd/system/evmosd.service > /dev/null << EOF
@@ -96,3 +99,4 @@ sed -i "s/^app-db-backend *=.*/app-db-backend = \"$db_backend\"/" $HOME/.evmosd/
 
 
 sudo systemctl start evmosd && sudo journalctl -u evmosd -f --no-hostname -o cat
+~~~
