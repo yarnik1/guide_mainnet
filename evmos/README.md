@@ -1,13 +1,13 @@
 Evmos mainnet (PebbleDB)
 Chain ID: evmos_9001-2 | Latest Version Tag: v16.0.3 | Custom Port: 169
 
-MONIKER="WellNode_guide"
+```MONIKER="WellNode_guide"
 
 sudo apt -q update
 sudo apt -qy install curl git jq lz4 build-essential
-sudo apt -qy upgrade
+sudo apt -qy upgrade```
 
-sudo rm -rf /usr/local/go
+`sudo rm -rf /usr/local/go`
 curl -Ls https://go.dev/dl/go1.20.5.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
 eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
 eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
